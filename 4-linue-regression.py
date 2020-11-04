@@ -1,4 +1,7 @@
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot  as plt
+
 # 思路1：
 # 计算所有点与现在在w，b值所拟的直线与真实值的差值和，返回其均值
 def computer_loss(b, w, points):
@@ -33,20 +36,30 @@ def gradient_decent_runner(points, starting_w, starting_b, lr, num_iterations):
 
 def run():
     points = np.genfromtxt("./data/data.csv", delimiter=",")
-    learning_rate = 0.00001
-    initial_b = 0 # initial y-intercept guess
-    initial_m = 0 # initial slope guess
-    num_iterations = 100000
+    learning_rate = 0.0001
+    initial_b = 1 # initial y-intercept guess
+    initial_w = 1 # initial slope guess
+    num_iterations = 100
     print("Starting gradient descent at b = {0}, m = {1}, error = {2}"
-          .format(initial_b, initial_m,
-                  computer_loss(initial_b, initial_m, points))
+          .format(initial_b, initial_w,
+                  computer_loss(initial_b, initial_w, points))
           )
     print("Running...")
-    [b, m] = gradient_decent_runner(points, initial_b, initial_m, learning_rate, num_iterations)
+    [b, w] = gradient_decent_runner(points, initial_b, initial_w, learning_rate, num_iterations)
     print("After {0} iterations b = {1}, m = {2}, error = {3}".
-          format(num_iterations, b, m,
-                 computer_loss(b, m, points))
+          format(num_iterations, b, w,
+                 computer_loss(b, w, points))
           )
+    print(points)
+    # plt画散点图
+    plt.scatter(points[:, 0], points[:, 1])
+    # plt画直线
+    x = np.linspace(0, 100, 100)
+    y = w * x + b
+    plt.plot(x, y, '-r', label='y=wx+b')
+    plt.show()
+
+# 将所有点画在图像上，将直线画在图像上，观察是否拟合的好
 
 if __name__ == '__main__':
     run()
