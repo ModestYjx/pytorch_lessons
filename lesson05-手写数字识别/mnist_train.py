@@ -32,7 +32,7 @@ test_loader = torch.utils.data.DataLoader(
 
 x, y = next(iter(train_loader))
 print(x.shape, y.shape, x.min(), x.max())
-plot_image()
+plot_image(x, y, 'image sample')
 
 class Net(nn.Module):
     def __init__(self):
